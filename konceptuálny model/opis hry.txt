@@ -1,0 +1,28 @@
+Color sudoku je variácia klasického sudoku, kde sa namiesto čísel používajú rôzne farby na vyplnenie mriežky. 
+Hra sa hrá na 9x9 mriežke, rozdelenej na 3x3 podmriežky. Každý riadok, stĺpec a podmriežka musí obsahovať všetkých deväť farieb práve raz. 
+Cieľom hry je rovnaký ako pri tradičnom sudoku, čo je vyplniť prázdne miesta v mriežke deviatimi rôznymi farbami tak,
+aby každý riadok, stĺpec a podmriežka obsahovali všetky farby práve raz. Hranie color sudoku vyžaduje 
+logické myslenie a dedukčné zručnosti, pretože je potrebné identifikovať, ktoré farby sa hodia do prázdnych miest na 
+základe farieb už umiestnených v mriežke. Hra sa dá hrať na rôznych úrovniach obtiažnosti, s ľahkými, strednými a ťažkými hádankami.
+
+1. Generovanie herného poľa:
+    - Herné pole je štvorcové, rozdelené na menšie štvorce (typicky 3x3).
+    - Každý štvorec obsahuje práve jednu farbu (napríklad červenú, modrú, zelenú atď.).
+    - Cieľom je vyplniť všetky políčka tak, aby v každom riadku, stĺpci a menšom štvorci neboli dve rovnaké farby.
+	Herné pole sa generuje tak(generate()), že sa náhodne vyberie niekoľko farieb a umiestnia sa 
+	do mriežky tak, aby spĺňali pravidlá hry. Počet a rozloženie farieb závisí od úrovne obtiažnosti. 
+	Čím menej farieb je daných, tým je hra ťažšia.
+2. Overovanie stavov hry:
+    - Hra je vyhratá(SOLVED), ak sú všetky políčka vyplnené a spĺňajú pravidlá farieb(isSolved() and POSSIBLE).
+    - Hra je prehratá(FAILED), ak nie je možné pokračovať v plnení políčok bez porušenia pravidiel farieb(WRONG).
+    - Hra prebieha(PLAYING), ak sú niektoré políčka prázdne a je možné ich vyplniť bez porušenia pravidiel.
+
+3. Prechod medzi stavmi dlaždíc, ťahy hráča:
+    - Hráč môže vyplniť prázdne(EMPTY) políčko farbou(toColorCell()), ktorá ešte nie je v riadku, stĺpci alebo menšom štvorci.
+    - Pri každom ťahu sa kontroluje, či sú pravidlá dodržané.
+    - Ak je herné pole úplne vyplnené a pravidlá sú splnené, hra je vyhratá.
+	Hráč môže meniť stav dlaždíc v mriežke tak, že klikne alebo ťukne na štvorček, kde chce umiestniť farbu, 
+	a vyberie farbu, ktorú chce umiestniť do toho štvorčeka. Hráč môže tiež zmeniť farbu už umiestnenej dlaždice,
+ 	ak klikne alebo ťukne na ňu a vyberie inú farbu. Hráč môže pokračovať v menení stavov dlaždíc, kým nevyplní celú mriežku 
+	alebo nenarazí na konflikt.
+
