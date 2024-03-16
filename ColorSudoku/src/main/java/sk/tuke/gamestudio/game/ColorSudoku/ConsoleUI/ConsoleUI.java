@@ -1,11 +1,20 @@
 package main.java.sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
 
+import main.java.sk.tuke.gamestudio.entity.Score;
 import main.java.sk.tuke.gamestudio.game.ColorSudoku.core.*;
+import main.java.sk.tuke.gamestudio.service.ScoreService;
+import main.java.sk.tuke.gamestudio.service.ScoreServiceJDBC;
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleUI {
     private boolean playing = true;
+    private String playerName;
+    private static String gameName = "ColorSudoku";
+    private Date actualDate = new Date(System.currentTimeMillis());
+    private int playerPoints = 500;
     private boolean justStarted = true;
     public void play(){
         String row;
@@ -22,14 +31,16 @@ public class ConsoleUI {
                 create(board);
                 board = HandleInput(board);
                 board.checkBoardState();
-                //board.setState(GameState.SOLVED);
+                board.setState(GameState.SOLVED);
                 if(board.getState() == GameState.SOLVED) {
                     board = askAfterGame(board);
                 }
             }
         }
     }
+
     public void create(GameBoard board) {
+        playerStats();
         introduceColor();
         System.out.print("\u001B[95m"+"      A   B   C   D   E   F   G   H   I\n" +" \u001B[0m");
         System.out.println("\u001B[93m" +"   ————————————————————————————————————" + " \u001B[0m");
@@ -45,6 +56,14 @@ public class ConsoleUI {
             System.out.println();
         }
     }
+    public void playerStats(){
+        System.out.println(playerName + " has " + playerPoints);
+    }
+    public String writePlayerName(){
+        System.out.print("Write your name: ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
     public void introduceColor(){
         for(int i=0; i<9; i++){
             System.out.print(ColorCell.colorHandler(i) + " " + " \u001B[0m" + " — " +i +" ");
@@ -53,7 +72,9 @@ public class ConsoleUI {
         }
         System.out.println();
     }
+
     public GameBoard HandleInput(GameBoard board){
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("\nChoose the row: ");
@@ -85,19 +106,41 @@ public class ConsoleUI {
         } else if (colInt > 8){
             System.out.println("You have chosen not a color! Pick another one in range 0-8");
         }
+        else {
+            handlePoints(true);
+        }
         return board;
+    }
+
+    public void handlePoints(Boolean toDecrease){
+        if(toDecrease)
+            playerPoints-=50;
+        else
+            playerPoints+=150;
+    }
+
+    public void showHallOfFame(){
+        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
+        List<Score> topScores = scoreServiceJDBC.getTopScores("ColorSudoku");
+        for(Score score: topScores){
+            System.out.println(score.getPlayer() + " won with a score: " + score.getPoints());
+        }
     }
 
     public GameBoard askAfterGame(GameBoard board){
         create(board);
+        showHallOfFame();
+
         System.out.println("You have won! Thank you for playing Color Sudoku!)");
         System.out.println("Would you like to play again the game?[y/n]");
+
         Scanner scanner = new Scanner(System.in);
         String sc = scanner.nextLine();
         while(!sc.matches("^[ynYN]$")){
             System.out.print("\ny/n needed!");
             sc = scanner.nextLine();
         }
+
         sc = sc.toLowerCase();
         if(sc.equals("y")) {
             playing = true;
@@ -108,10 +151,16 @@ public class ConsoleUI {
             playing = false;
             System.out.println("Thank you for playing my game!Have a good day!");
         }
+
+        Score score = new Score(gameName, playerName, playerPoints, actualDate);
+        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
+        scoreServiceJDBC.addScore(score);
         return board;
     }
+
     public GameBoard StartedScreen(GameBoard board){
         System.out.println("Welcome, to the Color Sudoku!");
+        playerName = writePlayerName();
         while(board.getGameDifficulty() == null){
             System.out.println("0 — EASY " + "1 — MEDIUM " + "2 — HARD " + "3 — EXPERT");
             System.out.print("\nChoose difficulty: ");
