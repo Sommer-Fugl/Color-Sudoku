@@ -1,4 +1,4 @@
-package Core;
+package main.java.sk.tuke.gamestudio.game.ColorSudoku.core;
 
 public enum ColorCell {
     YELLOW, RED, GREEN, BLUE, GRAY, CYAN, WHITE, BLACK, Purple;

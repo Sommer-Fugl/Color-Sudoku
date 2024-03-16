@@ -1,6 +1,6 @@
-package ConsoleUI;
+package main.java.sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
 
-import Core.*;
+import main.java.sk.tuke.gamestudio.game.ColorSudoku.core.*;
 
 import java.util.Scanner;
 
