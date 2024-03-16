@@ -1,5 +1,4 @@
 package Main;
-
 import ConsoleUI.ConsoleUI;
 
 public class SudokuMain {

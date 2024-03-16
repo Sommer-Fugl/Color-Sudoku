@@ -34,7 +34,7 @@ public class GameBoard {
             newBoard = generateThriadHorizontal(newBoard);
             newBoard = generateThriadVertical(newBoard);
         }
-        //makeTransparent(newBoard);
+        makeTransparent(newBoard);
         return newBoard;
     }
     public Cell[][]generateThriadHorizontal(Cell[][] board) {
@@ -165,28 +165,33 @@ public class GameBoard {
         this.setState(GameState.SOLVED);
         return ;
     }
-    public boolean verHorFullChecker(int x, int y, Cell[][] newBoard, ColorCell colorCell ){
-        for(int column = 0; column<9; column++ ){
-            if(newBoard[x][column].getCurrentState() == CellState.GENERATED && newBoard[x][column].getCurrentColor() == colorCell)
-                return false;
-        }
-        for(int row=0; row<9; row++){
-            if(newBoard[row][y].getCurrentState() == CellState.GENERATED && newBoard[row][y].getCurrentColor() == colorCell)
-                return false;
-        }
-        return true;
-    }
+//    public boolean verHorFullChecker(int x, int y, Cell[][] newBoard, ColorCell colorCell ){
+//        for(int column = 0; column<9; column++ ){
+//            if(newBoard[x][column].getCurrentState() == CellState.GENERATED && newBoard[x][column].getCurrentColor() == colorCell)
+//                return false;
+//        }
+//        for(int row=0; row<9; row++){
+//            if(newBoard[row][y].getCurrentState() == CellState.GENERATED && newBoard[row][y].getCurrentColor() == colorCell)
+//                return false;
+//        }
+//        return true;
+//    }
     public boolean isAbleToSet(int colorOrdinal, int x, int y){
-        if(!verHorFullChecker(x,y,getCellBoard(),ColorCell.getColor(colorOrdinal))) {
-            System.out.println("You can't set the color, it's already used in Vertical/Horizontal!");
-            return false;
-        }
+//        if(!verHorFullChecker(x,y,getCellBoard(),ColorCell.getColor(colorOrdinal))) {
+//            System.out.println("You can't set the color, it's already used in Vertical/Horizontal!");
+//            return false;
+//        }
 
-        int rangeX=findRangeX(x);
-        int rangeY=findRangeY(y);
-
-        if(!checkCell(rangeX,rangeY,getCellBoard(),ColorCell.getColor(colorOrdinal))) {
-            System.out.println("You can't set the color, it's already used in cell " + rangeX +" " + rangeY);
+//        int rangeX=findRangeX(x);
+//        int rangeY=findRangeY(y);
+//
+//        if(!checkCell(rangeX,rangeY,getCellBoard(),ColorCell.getColor(colorOrdinal))) {
+//            System.out.println("You can't set the color, it's already used in cell " + rangeX +" " + rangeY);
+//            return false;
+//        }
+        if(getCellBoard()[x][y].getCurrentColor().ordinal() != colorOrdinal)
+        {
+            System.out.println("You have chosen wrong color!");
             return false;
         }
         return true;
