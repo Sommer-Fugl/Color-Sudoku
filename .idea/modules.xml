@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/ColorSudokuCode/ColorSudokuCode.iml" filepath="$PROJECT_DIR$/ColorSudokuCode/ColorSudokuCode.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/gamestudio-7622.iml" filepath="$PROJECT_DIR$/.idea/gamestudio-7622.iml" />
-    </modules>
-  </component>
-</project>
