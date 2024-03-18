@@ -2,14 +2,15 @@ package main.java.sk.tuke.gamestudio.entity;
 
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Rating {
     private String player;
     private String game;
     private int rating;
-    private Date ratedOn;
+    private Timestamp ratedOn;
 
-    public Rating(String player, String game, int rating, Date ratedOn) {
+    public Rating(String player, String game, int rating, Timestamp ratedOn) {
         this.player = player;
         this.game = game;
         this.rating = rating;
@@ -40,11 +41,11 @@ public class Rating {
         this.rating = rating;
     }
 
-    public Date getRatedOn() {
+    public Timestamp getRatedOn() {
         return ratedOn;
     }
 
-    public void setRatedOn(Date ratedOn) {
+    public void setRatedOn(Timestamp ratedOn) {
         this.ratedOn = ratedOn;
     }
 }

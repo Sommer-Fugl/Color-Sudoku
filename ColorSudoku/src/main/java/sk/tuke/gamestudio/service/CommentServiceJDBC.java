@@ -37,7 +37,7 @@ public class CommentServiceJDBC implements CommentService{
             try(ResultSet rs = statement.executeQuery()){
                 List<Comment> comments = new ArrayList<>();
                 while(rs.next()){
-                    comments.add(new Comment(rs.getString(2), rs.getString(1), rs.getString(3), rs.getDate(4)));
+                    comments.add(new Comment(rs.getString(2), rs.getString(1), rs.getString(3), rs.getTimestamp(4)));
                 }
                 return comments;
             }

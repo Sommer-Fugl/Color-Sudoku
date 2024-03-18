@@ -19,6 +19,7 @@ public class GameBoard {
         this.gameDifficulty = difficulty;
         cellBoard = generate();
     }
+
     public Cell[][] generate(){
         Cell[][] newBoard = new Cell[9][9];
         ColorCell colorCell = randomColor();

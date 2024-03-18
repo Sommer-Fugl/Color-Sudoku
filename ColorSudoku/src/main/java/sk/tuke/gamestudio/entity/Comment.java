@@ -2,14 +2,15 @@ package main.java.sk.tuke.gamestudio.entity;
 
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Comment {
     private String player;
     private String game;
     private String comment;
-    private Date commentedOn;
+    private Timestamp commentedOn;
 
-    public Comment(String player, String game, String comment, Date comentedOn) {
+    public Comment(String player, String game, String comment, Timestamp comentedOn) {
         this.player = player;
         this.game = game;
         this.comment = comment;
@@ -40,11 +41,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Date getCommentedOn() {
+    public Timestamp getCommentedOn() {
         return commentedOn;
     }
 
-    public void setCommentedOn(Date comentedOn) {
+    public void setCommentedOn(Timestamp comentedOn) {
         this.commentedOn = comentedOn;
     }
 

@@ -8,9 +8,8 @@ import main.java.sk.tuke.gamestudio.game.ColorSudoku.core.*;
 import main.java.sk.tuke.gamestudio.service.CommentServiceJDBC;
 import main.java.sk.tuke.gamestudio.service.RatingServiceJDBC;
 import main.java.sk.tuke.gamestudio.service.ScoreServiceJDBC;
-
-import javax.xml.stream.events.EndDocument;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +17,7 @@ public class ConsoleUI {
     private boolean playing = true;
     private Player player;
     private static final String gameName = "ColorSudoku";
-    private Date actualDate = new Date(System.currentTimeMillis());
+    private Timestamp actualDate = new Timestamp(System.currentTimeMillis());
     private boolean justStarted = true;
 
     private static final String colorEnd = "\u001B[0m";
@@ -39,7 +38,6 @@ public class ConsoleUI {
                 create(board);
                 board = HandleInput(board);
                 board.checkBoardState();
-                board.setState(GameState.SOLVED);
                 if(board.getState() == GameState.SOLVED || board.getState() == GameState.FAILED) {
                     board = askAfterGame(board);
                 }

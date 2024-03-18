@@ -38,7 +38,7 @@ public class RatingServiceJDBC implements RatingService{
             try(ResultSet rs = statement.executeQuery()){
                 List<Rating> ratings = new ArrayList<>();
                 while(rs.next()){
-                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getDate(4)));
+                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getTimestamp(4)));
                 }
                 int counter = 0;
                 for (Rating rating : ratings) {
@@ -58,10 +58,16 @@ public class RatingServiceJDBC implements RatingService{
             PreparedStatement statement = connection.prepareStatement(SELECT))
         {
             statement.setString(1, game);
-            statement.setString(2, player);
             try(ResultSet rs = statement.executeQuery()){
-                Rating rating = new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getDate(4));
-                return rating.getRating();
+                List<Rating> ratings = new ArrayList<>();
+                while(rs.next()){
+                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getTimestamp(4)));
+                }
+                for(Rating oneRating: ratings){
+                    if(oneRating.getPlayer().equals(player))
+                        return oneRating.getRating();
+                }
+                return -1;
             }
         } catch(SQLException e){
             throw new RatingException("Problem with rating", e);

@@ -1,5 +1,6 @@
 package main.java.sk.tuke.gamestudio.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Score {
@@ -9,9 +10,9 @@ public class Score {
 
     private int points;
 
-    private Date playedOn;
+    private Timestamp playedOn;
 
-    public Score(String game, String player, int points, Date playedOn) {
+    public Score(String game, String player, int points, Timestamp playedOn) {
         this.game = game;
         this.player = player;
         this.points = points;
@@ -42,11 +43,11 @@ public class Score {
         this.points = points;
     }
 
-    public Date getPlayedOn() {
+    public Timestamp getPlayedOn() {
         return playedOn;
     }
 
-    public void setPlayedOn(Date playedOn) {
+    public void setPlayedOn(Timestamp playedOn) {
         this.playedOn = playedOn;
     }
 
