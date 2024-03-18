@@ -37,7 +37,7 @@ public class GameBoard {
         makeTransparent(newBoard);
         return newBoard;
     }
-    public Cell[][]generateThriadHorizontal(Cell[][] board) {
+    private Cell[][]generateThriadHorizontal(Cell[][] board) {
         int columnH = 3;
         for(int row = 1; row<3;row++){
             for(int column = 0; column<3; column++){
@@ -66,7 +66,7 @@ public class GameBoard {
         return board;
     }
 
-    public Cell[][]generateThriadVertical(Cell[][] board) {
+    private Cell[][]generateThriadVertical(Cell[][] board) {
         for(int column = 0; column<3; column++){ //(central-left and left-bottom) group cells 1 vertical column
             for(int row = 0; row<3; row++) {
                 if(column == 1){
@@ -121,7 +121,7 @@ public class GameBoard {
         return board;
     }
 
-    public Cell[][]makeTransparent(Cell[][] board){
+    private Cell[][]makeTransparent(Cell[][] board){
         int emptyNum = (getGameDifficulty().ordinal()*15) + 15;
         int row = (int)(Math.random()*9), column =  (int)(Math.random()*9);
         for(int i = 0; i<emptyNum; i++){
@@ -142,11 +142,11 @@ public class GameBoard {
         this.gameDifficulty = gameDifficulty;
     }
 
-    public ColorCell randomColor(){//changed range
+    private ColorCell randomColor(){//changed range
         int c = (int)(Math.random()*9);
         return ColorCell.getColor(c);
     }
-    public boolean checkCell(int x, int y, Cell[][]newBoard, ColorCell colorCell){
+    private boolean checkCell(int x, int y, Cell[][]newBoard, ColorCell colorCell){
         for(int row = x-3; row<x; row++){
             for(int column = y-3; column<y; column++){
                 if(newBoard[row][column]!=null && newBoard[row][column].getCurrentColor() == colorCell && newBoard[row][column].getCurrentState() == CellState.GENERATED)
@@ -165,54 +165,14 @@ public class GameBoard {
         this.setState(GameState.SOLVED);
         return ;
     }
-    //    public boolean verHorFullChecker(int x, int y, Cell[][] newBoard, ColorCell colorCell ){
-//        for(int column = 0; column<9; column++ ){
-//            if(newBoard[x][column].getCurrentState() == CellState.GENERATED && newBoard[x][column].getCurrentColor() == colorCell)
-//                return false;
-//        }
-//        for(int row=0; row<9; row++){
-//            if(newBoard[row][y].getCurrentState() == CellState.GENERATED && newBoard[row][y].getCurrentColor() == colorCell)
-//                return false;
-//        }
-//        return true;
-//    }
-    public boolean isAbleToSet(int colorOrdinal, int x, int y){
-//        if(!verHorFullChecker(x,y,getCellBoard(),ColorCell.getColor(colorOrdinal))) {
-//            System.out.println("You can't set the color, it's already used in Vertical/Horizontal!");
-//            return false;
-//        }
 
-//        int rangeX=findRangeX(x);
-//        int rangeY=findRangeY(y);
-//
-//        if(!checkCell(rangeX,rangeY,getCellBoard(),ColorCell.getColor(colorOrdinal))) {
-//            System.out.println("You can't set the color, it's already used in cell " + rangeX +" " + rangeY);
-//            return false;
-//        }
+    public boolean isAbleToSet(int colorOrdinal, int x, int y){
         if(getCellBoard()[x][y].getCurrentColor().ordinal() != colorOrdinal)
         {
             System.out.println("You have chosen wrong color!");
             return false;
         }
         return true;
-    }
-    public int findRangeX(int x){
-        if(x<3)
-            return 3;
-        else if(x>=3 && x<6)
-            return 6;
-        else if (x>=6 && x<9)
-            return 9;
-        return 0;
-    }
-    public int findRangeY(int y){
-        if(y<3)
-            return 3;
-        else if(y>=3 && y<6)
-            return 6;
-        else if (y>=6 && y<9)
-            return 9;
-        return 0;
     }
     public Cell[][] getCellBoard() {
         return cellBoard;

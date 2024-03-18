@@ -29,8 +29,4 @@ public class Cell {
         this.currentState = currentState;
     }
 
-    public boolean isColored(){
-        return true;
-    }
-
 }

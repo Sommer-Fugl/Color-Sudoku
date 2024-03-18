@@ -1,0 +1,81 @@
+package main.java.sk.tuke.gamestudio.service;
+
+import main.java.sk.tuke.gamestudio.entity.Rating;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RatingServiceJDBC implements RatingService{
+    public static final String URL = "jdbc:postgresql://localhost/gamestudio";
+    public static final String USER = "postgres";
+    public static final String PASSWORD = "postgres";
+    public static final String SELECT = "SELECT game, player, rating, ratedOn FROM rating WHERE game = ?";
+    public static final String DELETE = "DELETE FROM rating";
+    public static final String INSERT = "INSERT INTO rating (game, player, rating, ratedOn) VALUES (?, ?, ?, ?)";
+    @Override
+    public void setRating(Rating rating) throws RatingException {
+        try(Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(INSERT)
+        ){
+            statement.setString(1, rating.getGame());
+            statement.setString(2,rating.getPlayer());
+            statement.setInt(3, rating.getRating());
+            statement.setTimestamp(4, new Timestamp(rating.getRatedOn().getTime()));
+            statement.executeUpdate();
+        }
+        catch(SQLException e){
+            throw new RatingException("Problem setting rating", e);
+        }
+    }
+
+    @Override
+    public int getAverageRating(String game) throws RatingException {
+        try(Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(SELECT))
+        {
+            statement.setString(1, game);
+            try(ResultSet rs = statement.executeQuery()){
+                List<Rating> ratings = new ArrayList<>();
+                while(rs.next()){
+                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getDate(4)));
+                }
+                int counter = 0;
+                for (Rating rating : ratings) {
+                    counter += rating.getRating();
+                }
+                return Math.round((float)(counter / ratings.size()));
+            }
+        }
+        catch (SQLException e){
+            throw new RatingException("Problem with rating", e);
+        }
+    }
+
+    @Override
+    public int getRating(String game, String player) throws RatingException {
+        try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(SELECT))
+        {
+            statement.setString(1, game);
+            statement.setString(2, player);
+            try(ResultSet rs = statement.executeQuery()){
+                Rating rating = new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getDate(4));
+                return rating.getRating();
+            }
+        } catch(SQLException e){
+            throw new RatingException("Problem with rating", e);
+        }
+    }
+
+    @Override
+    public void reset() throws RatingException {
+        try(Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            Statement statement = connection.createStatement())
+        {
+            statement.executeUpdate(DELETE);
+        }catch (SQLException e){
+            throw new RatingException("Problem with rating", e);
+        }
+    }
+}
