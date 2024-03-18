@@ -8,7 +8,6 @@ import main.java.sk.tuke.gamestudio.game.ColorSudoku.core.*;
 import main.java.sk.tuke.gamestudio.service.CommentServiceJDBC;
 import main.java.sk.tuke.gamestudio.service.RatingServiceJDBC;
 import main.java.sk.tuke.gamestudio.service.ScoreServiceJDBC;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
@@ -38,6 +37,7 @@ public class ConsoleUI {
                 create(board);
                 board = HandleInput(board);
                 board.checkBoardState();
+//                board.setState(GameState.FAILED);
                 if(board.getState() == GameState.SOLVED || board.getState() == GameState.FAILED) {
                     board = askAfterGame(board);
                 }
@@ -83,7 +83,8 @@ public class ConsoleUI {
     }
 
     private void playerStats(){
-        System.out.println(ORANGE+player.getPlayerName() + " has " + colorEnd + CYAN + player.getPlayerPoints() + colorEnd);
+        System.out.println(ORANGE+player.getPlayerName() + " has " + colorEnd +
+                CYAN + player.getPlayerPoints() + colorEnd + ORANGE + "points" + colorEnd);
     }
 
     private String writePlayerName(){
@@ -158,6 +159,7 @@ public class ConsoleUI {
     private void showHallOfFame(){
         ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
         List<Score> topScores = scoreServiceJDBC.getTopScores("ColorSudoku");
+        System.out.println(ORANGE+"Hall of Fame:"+ colorEnd);
         for(Score score: topScores){
             System.out.println(CYAN+ score.getPlayer() +colorEnd+ " with a score: " + ORANGE + score.getPoints() + colorEnd);
         }
@@ -209,6 +211,7 @@ public class ConsoleUI {
     private void showComments(){
         CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
         List<Comment> comments = commentServiceJDBC.getComments(gameName);
+        System.out.println(CYAN + "Players comments:" + colorEnd);
         for(Comment comment: comments){
             System.out.println(ORANGE+comment.toString()+colorEnd);
         }
