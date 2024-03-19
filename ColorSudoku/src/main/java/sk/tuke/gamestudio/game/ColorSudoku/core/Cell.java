@@ -15,7 +15,6 @@ public class Cell {
 
     public void setCurrentColor(ColorCell newColor) {
         if (this.currentState == CellState.GENERATED) {
-            System.out.println("Chosen cell is the generated one, it is impossible to put color!");
             return;
         }
         this.currentColor = newColor;

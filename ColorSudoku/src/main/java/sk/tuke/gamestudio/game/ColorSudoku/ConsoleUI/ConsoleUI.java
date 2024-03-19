@@ -37,7 +37,7 @@ public class ConsoleUI {
                 create(board);
                 board = HandleInput(board);
                 board.checkBoardState();
-//                board.setState(GameState.FAILED);
+                board.setState(GameState.FAILED);
                 if(board.getState() == GameState.SOLVED || board.getState() == GameState.FAILED) {
                     board = askAfterGame(board);
                 }
