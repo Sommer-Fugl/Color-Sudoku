@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class CommentServiceTest {
     private CommentService commentService = new CommentServiceJDBC();
@@ -25,5 +26,26 @@ public class CommentServiceTest {
         var comment = new Comment("Judo", "ColorSudoku", "Pitty", new Timestamp(System.currentTimeMillis()));
         commentService.addComment(comment);
         assertEquals("Pitty", commentService.getComments("ColorSudoku").get(0).getComment());
+    }
+
+    @Test
+    public void getComment(){
+        commentService.reset();
+        var comment1 = new Comment("Karo", "ColorSudoku", "Putty", new Timestamp(System.currentTimeMillis()));
+        var comment2 = new Comment("Fikar", "ColorSudoku", "Werty", new Timestamp(System.currentTimeMillis()));
+        var comment3 = new Comment("Judo", "ColorSudoku", "Pitty", new Timestamp(System.currentTimeMillis()));
+        commentService.addComment(comment1);
+        commentService.addComment(comment2);
+        commentService.addComment(comment3);
+        var commentList = commentService.getComments("ColorSudoku");
+
+        assertEquals(comment1.getComment(), commentList.get(0).getComment());
+        assertEquals(comment1.getComment(), commentList.get(0).getComment());
+        assertEquals(comment1.getComment(), commentList.get(0).getComment());
+
+        assertEquals(comment1.getPlayer(), commentList.get(0).getPlayer());
+        assertEquals(comment1.getPlayer(), commentList.get(0).getPlayer());
+        assertEquals(comment1.getPlayer(), commentList.get(0).getPlayer());
+
     }
 }

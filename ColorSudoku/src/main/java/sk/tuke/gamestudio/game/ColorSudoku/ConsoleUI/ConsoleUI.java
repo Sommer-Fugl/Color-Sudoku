@@ -46,7 +46,6 @@ public class ConsoleUI {
     }
 
     private void create(GameBoard board) {
-        playerStats();
         introduceColor();
         System.out.print(PURPLE+"    A   B   C   D   E   F   G   H   I\n" + colorEnd);
         System.out.println(ORANGE +"   ———————————————————————————————————" + colorEnd);
@@ -59,9 +58,10 @@ public class ConsoleUI {
                     System.out.print(ColorCell.colorHandler(board.getCellBoard()[i][ki].getCurrentColor().ordinal())+ "   "
                             + colorEnd + ORANGE + "|" + colorEnd);
             }
-            System.out.print("\u001B[93m" +"\n   ———————————————————————————————————"+ colorEnd);
+            System.out.print(ORANGE +"\n   ———————————————————————————————————"+ colorEnd);
             System.out.println();
         }
+        playerStats();
         showAverageRate();
     }
 
@@ -83,12 +83,15 @@ public class ConsoleUI {
     }
 
     private void playerStats(){
-        System.out.println(ORANGE+player.getPlayerName() + " has " + colorEnd +
-                CYAN + player.getPlayerPoints() + colorEnd + ORANGE + "points" + colorEnd);
+        System.out.print("   "+ORANGE+"|"+player.getPlayerName() + "|" + colorEnd);
+        for(int i=player.getPlayerName().length(); i<35-7; i++)
+            System.out.print(" ");
+        System.out.print(CYAN + "|"+ player.getPlayerPoints() + "|" + colorEnd);
+        System.out.println(ORANGE +"\n   ———————————————————————————————————"+ colorEnd);
     }
 
     private String writePlayerName(){
-        System.out.print("Write your name: ");
+        System.out.print(ORANGE+"Write your name: "+colorEnd);
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -109,21 +112,21 @@ public class ConsoleUI {
         System.out.print(ORANGE+"\nChoose the row: " + colorEnd);
         String row = scanner.nextLine();
         while (!row.matches(".*[a-iA-I].*")) {
-            System.out.print("\nA-I letter needed! Choose the row: ");
+            System.out.print(ORANGE+"\nA-I letter needed! Choose the row: "+colorEnd);
             row = scanner.nextLine();
         }
 
         System.out.print(ORANGE + "\nChoose the column: " + colorEnd);
         String column = scanner.nextLine();
         while (!column.matches(".*[a-iA-I].*")) {
-            System.out.print("\nA-I letter needed! Choose the column: ");
+            System.out.print(CYAN+"\nA-I letter needed! Choose the column: "+colorEnd);
             column = scanner.nextLine();
         }
 
         System.out.print(ORANGE + "\nChoose the color: " + colorEnd);
         String color = scanner.nextLine();
         while(!color.matches("[0-8]+")){
-            System.out.print("\nDecimal needed! Choose the color: ");
+            System.out.print(CYAN+"\nDecimal needed! Choose the color: "+colorEnd);
             color = scanner.nextLine();
         }
 
@@ -131,11 +134,11 @@ public class ConsoleUI {
         int y = stringToInt(column);
         int colInt = color.charAt(0)-'0';
 
-        if(board.isAbleToSet(colInt,x,y)&& board.getCellBoard()[x][y].getCurrentState() != CellState.GENERATED){///change for score and warning message
-            board.getCellBoard()[x][y] = new Cell(CellState.GENERATED, ColorCell.getColor(colInt));
+        if(board.isAbleToSet(colInt,x,y)&& board.getCellBoard()[x][y].getCurrentState() != CellState.GENERATED){
+            board.getCellBoard()[x][y].fillCellWithColor(ColorCell.getColor(colInt));//changes cell state and color
             handlePoints(false, board);
         } else if (colInt > 8){
-            System.out.println("You have chosen not a color! Pick another one in range 0-8");
+            System.out.println(ORANGE+"You have chosen not a color! Pick another one in range [0-8]" + colorEnd);
         }
         else {
             handlePoints(true, board);
@@ -175,18 +178,18 @@ public class ConsoleUI {
         else
             System.out.println(CYAN + "We congratulate you with the winning of the game! But you still didn't prove that you are the smarter!" + colorEnd);
 
-        System.out.println(CYAN + "Would you like to see Hall of fame?" + colorEnd + ORANGE + " [y/n]" + colorEnd);
+        System.out.print(CYAN + "Would you like to see Hall of fame?" + colorEnd + ORANGE + " [y/n]" + colorEnd);
         boolean service = askForService();
         if(service)
             showHallOfFame();
 
-        System.out.println(CYAN+ "Would you like to see comments?" + colorEnd + ORANGE+ "[y/n]" + colorEnd);
+        System.out.print(CYAN+ "Would you like to see comments?" + colorEnd + ORANGE+ "[y/n]" + colorEnd);
         service = askForService();
         if(service)
             showComments();
 
         System.out.println(CYAN+"Thank you for playing Color Sudoku!)" + colorEnd);
-        System.out.println(CYAN+"Would you like to play again the game?"+ colorEnd + ORANGE+"[y/n]"+colorEnd);
+        System.out.print(CYAN+"Would you like to play again the game?"+ colorEnd + ORANGE+"[y/n]"+colorEnd);
 
         service = askForService();
 
@@ -198,7 +201,7 @@ public class ConsoleUI {
             writeComment();
             rateGame();
             playing = false;
-            System.out.println("Thank you for playing my game!Have a good day!");
+            System.out.println(ORANGE+"Thank you for playing my game!Have a good day!"+colorEnd);
         }
 
         Score score = new Score(gameName, player.getPlayerName(), player.getPlayerPoints(), actualDate);
@@ -222,7 +225,7 @@ public class ConsoleUI {
         Scanner scanner = new Scanner(System.in);
         String sc = scanner.nextLine();
         while(!sc.matches("^(?:yes|no|y|n|Y|N)$")){
-            System.out.print("\ny/n needed!");
+            System.out.print(ORANGE+"\ny/n needed!"+colorEnd);
             sc = scanner.nextLine();
         }
         return sc.matches("^(?:yes|y|Y)$");
@@ -233,15 +236,15 @@ public class ConsoleUI {
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine().toLowerCase();
         while (!answer.matches("^(?:yes|no|y|n)$")) {
-            System.out.println("Wrong command! Type (yes/no)");
+            System.out.println(ORANGE+"Wrong command! Type (yes/no)"+colorEnd);
             answer = scanner.nextLine().toLowerCase();
         }
         if (answer.matches("^(?:yes|y)$"))
         {
-            System.out.print("Rate our game(0-5): ");
+            System.out.print(CYAN+"Rate our game(0-5): "+colorEnd);
             answer = scanner.nextLine();
             while(!answer.matches("[0-5]+")){
-                System.out.println("Wrong range! Rate is in range 0-5");
+                System.out.println(ORANGE+"Wrong range! Rate is in range 0-5"+colorEnd);
                 answer = scanner.nextLine();
             }
             int rate = answer.charAt(0)-48;
@@ -250,7 +253,7 @@ public class ConsoleUI {
             ratingServiceJDBC.setRating(rating);
         }
         else
-            System.out.println("We are waiting for comment next time!");
+            System.out.println(CYAN+"We are waiting for comment next time!"+colorEnd);
     }
 
     private void writeComment() {
@@ -258,19 +261,19 @@ public class ConsoleUI {
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine().toLowerCase();
         while (!answer.matches("^(?:yes|no|y|n)$")) {
-            System.out.println("Wrong command! Type (yes/no)");
+            System.out.println(CYAN+"Wrong command! Type (yes/no)"+colorEnd);
             answer = scanner.nextLine().toLowerCase();
         }
         if (answer.matches("^(?:yes|y)$"))
         {
-            System.out.print("Write your comment: ");
+            System.out.print(ORANGE+"Write your comment: "+colorEnd);
             String com = scanner.nextLine();
             Comment comment = new Comment(player.getPlayerName(),gameName, com, actualDate);
             CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
             commentServiceJDBC.addComment(comment);
         }
         else
-            System.out.println("We are waiting for comment next time!");
+            System.out.println(ORANGE+"We are waiting for comment next time!"+ colorEnd);
     }
 
     private GameBoard StartedScreen(GameBoard board) throws MatchException{
@@ -278,12 +281,12 @@ public class ConsoleUI {
         String  playerName = writePlayerName();
         player = new Player(playerName);
         while(board.getGameDifficulty() == null){
-            System.out.println("0 — EASY " + "1 — MEDIUM " + "2 — HARD " + "3 — EXPERT");
-            System.out.print("\nChoose difficulty: ");
+            System.out.println(ORANGE+"0 — EASY " + "1 — MEDIUM " + "2 — HARD " + "3 — EXPERT"+colorEnd);
+            System.out.print(CYAN+"\nChoose difficulty: "+colorEnd);
             Scanner sc = new Scanner(System.in);
             String difNum = sc.nextLine();
             while(!difNum.matches("[0-3]+")) {
-                System.out.println("You've chosen wrong difficulty!It's in range 0 — 3");
+                System.out.println(ORANGE+"You've chosen wrong difficulty!It's in range 0 — 3"+ colorEnd);
                 difNum = sc.nextLine();
             }
             board = new GameBoard(Difficulty.getDifficulty(difNum.charAt(0)-48));

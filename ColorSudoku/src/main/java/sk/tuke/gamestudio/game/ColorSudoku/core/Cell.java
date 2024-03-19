@@ -21,6 +21,11 @@ public class Cell {
         this.currentColor = newColor;
     }
 
+    public void fillCellWithColor(ColorCell colorCell){
+        setCurrentState(CellState.GENERATED);
+        setCurrentColor(colorCell);
+    }
+
     public CellState getCurrentState() {
         return currentState;
     }
