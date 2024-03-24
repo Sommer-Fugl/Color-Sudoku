@@ -1,4 +1,4 @@
-package main.java.sk.tuke.gamestudio.game.ColorSudoku.core;
+package sk.tuke.gamestudio.game.ColorSudoku.Core;
 
 public class Cell {
     private CellState currentState;
@@ -15,6 +15,7 @@ public class Cell {
 
     public void setCurrentColor(ColorCell newColor) {
         if (this.currentState == CellState.GENERATED) {
+            System.out.println("Chosen cell is the generated one, it is impossible to put color!");
             return;
         }
         this.currentColor = newColor;

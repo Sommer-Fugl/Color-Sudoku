@@ -1,5 +1,4 @@
-package main.java.sk.tuke.gamestudio.game.ColorSudoku.core;
-
+package sk.tuke.gamestudio.game.ColorSudoku.Core;
 
 public class GameBoard {
     private Cell[][] cellBoard = new Cell[9][9];

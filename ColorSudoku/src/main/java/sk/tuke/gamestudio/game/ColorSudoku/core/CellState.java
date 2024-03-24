@@ -1,4 +1,5 @@
-package main.java.sk.tuke.gamestudio.game.ColorSudoku.core;
+package sk.tuke.gamestudio.game.ColorSudoku.Core;
+
 public enum CellState {
     EMPTY,
     GENERATED;

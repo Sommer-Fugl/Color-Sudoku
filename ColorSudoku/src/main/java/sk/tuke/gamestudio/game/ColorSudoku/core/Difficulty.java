@@ -1,4 +1,5 @@
-package main.java.sk.tuke.gamestudio.game.ColorSudoku.core;
+package sk.tuke.gamestudio.game.ColorSudoku.Core;
+
 public enum Difficulty {
     EASY, MEDIUM, HARD, EXPERT;
     public static Difficulty getDifficulty(int code){

@@ -1,13 +1,15 @@
-package main.java.sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
+package sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
 
-import main.java.sk.tuke.gamestudio.entity.Comment;
-import main.java.sk.tuke.gamestudio.entity.Rating;
-import main.java.sk.tuke.gamestudio.entity.Score;
-import main.java.sk.tuke.gamestudio.game.ColorSudoku.Player.Player;
-import main.java.sk.tuke.gamestudio.game.ColorSudoku.core.*;
-import main.java.sk.tuke.gamestudio.service.CommentServiceJDBC;
-import main.java.sk.tuke.gamestudio.service.RatingServiceJDBC;
-import main.java.sk.tuke.gamestudio.service.ScoreServiceJDBC;
+
+import sk.tuke.gamestudio.entity.Comment;
+import sk.tuke.gamestudio.entity.Rating;
+import sk.tuke.gamestudio.entity.Score;
+import sk.tuke.gamestudio.game.ColorSudoku.Core.*;
+import sk.tuke.gamestudio.game.ColorSudoku.Player.Player;
+import sk.tuke.gamestudio.service.CommentServiceJDBC;
+import sk.tuke.gamestudio.service.RatingServiceJDBC;
+import sk.tuke.gamestudio.service.ScoreServiceJDBC;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
@@ -37,7 +39,7 @@ public class ConsoleUI {
                 create(board);
                 board = HandleInput(board);
                 board.checkBoardState();
-                board.setState(GameState.FAILED);
+//                board.setState(GameState.FAILED);
                 if(board.getState() == GameState.SOLVED || board.getState() == GameState.FAILED) {
                     board = askAfterGame(board);
                 }

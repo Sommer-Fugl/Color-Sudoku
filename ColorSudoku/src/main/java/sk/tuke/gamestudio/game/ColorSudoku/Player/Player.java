@@ -1,4 +1,4 @@
-package main.java.sk.tuke.gamestudio.game.ColorSudoku.Player;
+package sk.tuke.gamestudio.game.ColorSudoku.Player;
 
 public class Player {
     private String playerName;

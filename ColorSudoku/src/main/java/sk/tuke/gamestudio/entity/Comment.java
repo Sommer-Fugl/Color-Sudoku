@@ -1,7 +1,5 @@
-package main.java.sk.tuke.gamestudio.entity;
+package sk.tuke.gamestudio.entity;
 
-
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Comment {
@@ -53,7 +51,7 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "game='" + game + '\'' +
-                 player + '\'' +
+                player + '\'' +
                 "commented: " + comment +
                 ", commentedOn=" + commentedOn +
                 '}';
