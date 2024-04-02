@@ -1,12 +1,35 @@
 package sk.tuke.gamestudio.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Comment {
+@Entity
+@NamedQuery( name = "Comment.reset",
+        query = "DELETE FROM Comment")
+@NamedQuery( name = "Comment.getComments",
+        query = "SELECT c FROM Comment c WHERE c.game=:game ORDER BY c.commentedOn DESC")
+public class Comment implements Serializable {
+    @Id
+    @GeneratedValue
+    private int ident;
     private String player;
     private String game;
     private String comment;
     private Timestamp commentedOn;
+    public Comment(){};
+
+    public int getIdent() {
+        return ident;
+    }
+
+    public void setIdent(int ident) {
+        this.ident = ident;
+    }
 
     public Comment(String player, String game, String comment, Timestamp comentedOn) {
         this.player = player;

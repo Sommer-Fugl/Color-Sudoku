@@ -1,10 +1,6 @@
 package sk.tuke.gamestudio.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -17,11 +13,11 @@ public class Score implements Serializable {
     @Id
     @GeneratedValue
     private int ident;
-    public Score() {}
+    public Score(){}
     public int getIdent() { return ident; }
     public void setIdent(int ident) { this.ident = ident; }
-    private String game;
 
+    private String game;
     private String player;
 
     private int points;

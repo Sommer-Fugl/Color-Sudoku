@@ -1,14 +1,13 @@
 package sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.entity.Comment;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.ColorSudoku.Core.*;
 import sk.tuke.gamestudio.game.ColorSudoku.Player.Player;
-import sk.tuke.gamestudio.service.CommentServiceJDBC;
-import sk.tuke.gamestudio.service.RatingServiceJDBC;
-import sk.tuke.gamestudio.service.ScoreServiceJDBC;
+import sk.tuke.gamestudio.service.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -27,6 +26,25 @@ public class ConsoleUI {
     private static final String Yellow = "\033[0;33m";
     private static final String CYAN = "\033[0;36m";
 
+    @Autowired
+    private ScoreService scoreService;
+    @Autowired
+    public void setScoreService(ScoreService scoreService) {
+        this.scoreService = scoreService;
+    }
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private void setCommentService(CommentService commentService){
+        this.commentService = commentService;
+    }
+    @Autowired
+    private RatingService ratingService;
+    @Autowired
+    private void setRatingService(RatingService ratingService){
+        this.ratingService = ratingService;
+    }
+
     public void play(){
         GameBoard board = new GameBoard();
         while(playing){
@@ -39,7 +57,7 @@ public class ConsoleUI {
                 create(board);
                 board = HandleInput(board);
                 board.checkBoardState();
-//                board.setState(GameState.FAILED);
+                board.setState(GameState.FAILED);
                 if(board.getState() == GameState.SOLVED || board.getState() == GameState.FAILED) {
                     board = askAfterGame(board);
                 }
@@ -68,9 +86,11 @@ public class ConsoleUI {
     }
 
     private void showAverageRate(){
-        RatingServiceJDBC ratingServiceJDBC = new RatingServiceJDBC();
+        //RatingServiceJDBC ratingServiceJDBC = new RatingServiceJDBC();
         System.out.print(CYAN + "Average game rating is " + colorEnd);
-        int avRate = ratingServiceJDBC.getAverageRating(gameName);
+        int avRate = ratingService.getAverageRating(gameName);
+        // or
+        // ratingServiceJDBC.getAverageRating(gameName);
 
         for(int i=0; i< avRate; i++){
             System.out.print(Yellow + "★" + colorEnd);
@@ -80,7 +100,9 @@ public class ConsoleUI {
             System.out.print(Yellow + "☆" + colorEnd);
         }
 
-        ratingServiceJDBC.getAverageRating(gameName);
+        ratingService.getAverageRating(gameName);
+        //or
+        //ratingServiceJDBC.getAverageRating(gameName);
         System.out.println();
     }
 
@@ -162,8 +184,8 @@ public class ConsoleUI {
     }
 
     private void showHallOfFame(){
-        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
-        List<Score> topScores = scoreServiceJDBC.getTopScores("ColorSudoku");
+//        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
+        List<Score> topScores = scoreService.getTopScores("ColorSudoku");//scoreServiceJDBC.getTopScores("ColorSudoku");
         System.out.println(ORANGE+"Hall of Fame:"+ colorEnd);
         for(Score score: topScores){
             System.out.println(CYAN+ score.getPlayer() +colorEnd+ " with a score: " + ORANGE + score.getPoints() + colorEnd);
@@ -172,6 +194,11 @@ public class ConsoleUI {
     }
 
     private GameBoard askAfterGame(GameBoard board){
+        Score score = new Score(gameName, player.getPlayerName(), player.getPlayerPoints(), actualDate);
+//        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
+//        scoreServiceJDBC.addScore(score);
+        scoreService.addScore(score);
+
         create(board);
 
         if(board.getState() == GameState.FAILED){
@@ -205,17 +232,12 @@ public class ConsoleUI {
             playing = false;
             System.out.println(ORANGE+"Thank you for playing my game!Have a good day!"+colorEnd);
         }
-
-        Score score = new Score(gameName, player.getPlayerName(), player.getPlayerPoints(), actualDate);
-        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
-        scoreServiceJDBC.addScore(score);
-
         return board;
     }
 
     private void showComments(){
-        CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
-        List<Comment> comments = commentServiceJDBC.getComments(gameName);
+//        CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
+        List<Comment> comments = commentService.getComments(gameName);//commentServiceJDBC.getComments(gameName);
         System.out.println(CYAN + "Players comments:" + colorEnd);
         for(Comment comment: comments){
             System.out.println(ORANGE+comment.toString()+colorEnd);
@@ -251,8 +273,9 @@ public class ConsoleUI {
             }
             int rate = answer.charAt(0)-48;
             Rating rating = new Rating(player.getPlayerName(), gameName, rate,actualDate);
-            RatingServiceJDBC ratingServiceJDBC = new RatingServiceJDBC();
-            ratingServiceJDBC.setRating(rating);
+            ratingService.setRating(rating);
+            //RatingServiceJDBC ratingServiceJDBC = new RatingServiceJDBC();
+            //ratingServiceJDBC.setRating(rating);
         }
         else
             System.out.println(CYAN+"We are waiting for comment next time!"+colorEnd);
@@ -271,8 +294,9 @@ public class ConsoleUI {
             System.out.print(ORANGE+"Write your comment: "+colorEnd);
             String com = scanner.nextLine();
             Comment comment = new Comment(player.getPlayerName(),gameName, com, actualDate);
-            CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
-            commentServiceJDBC.addComment(comment);
+            commentService.addComment(comment);
+//            CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
+            //commentServiceJDBC.addComment(comment);
         }
         else
             System.out.println(ORANGE+"We are waiting for comment next time!"+ colorEnd);
