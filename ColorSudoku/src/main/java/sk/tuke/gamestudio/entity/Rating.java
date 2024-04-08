@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @NamedQuery( name = "Rating.getRating",
         query = "SELECT r.rating FROM Rating r WHERE r.game=:game AND r.player=:player")
 @NamedQuery( name = "Rating.getRatingPlayer",
-        query = "SELECT r.rating FROM Rating r WHERE r.game=:game")
+        query = "SELECT r FROM Rating r WHERE r.game=:game")
 public class Rating implements Serializable {
     @Id
     @GeneratedValue
@@ -26,6 +26,10 @@ public class Rating implements Serializable {
     private int rating;
     private Timestamp ratedOn;
     public Rating(){}
+
+//    public Rating(int ident) {
+//        this.ident = ident;
+//    }
 
     public int getIdent() {
         return ident;

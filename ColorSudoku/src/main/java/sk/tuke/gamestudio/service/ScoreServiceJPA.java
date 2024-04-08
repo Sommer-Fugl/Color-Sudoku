@@ -15,7 +15,12 @@ public class ScoreServiceJPA implements ScoreService {
 
     @Override
     public void addScore(Score score) throws ScoreException {
-        entityManager.persist(score);
+        List<Score> scoresList = getAllScores("ColorSudoku");
+        for(Score checkedScore: scoresList){
+            if(checkedScore.getPlayer().equals(score.getPlayer()))
+                score.setIdent(checkedScore.getIdent());
+        }
+        entityManager.merge(score);
     }
 
     @Override
@@ -26,9 +31,13 @@ public class ScoreServiceJPA implements ScoreService {
     }
 
     @Override
+    public List<Score> getAllScores(String game) throws ScoreException {
+        return entityManager.createNamedQuery("Score.getAllScores")
+                .setParameter("game", game).getResultList();
+    }
+
+    @Override
     public void reset() {
         entityManager.createNamedQuery("Score.resetScores").executeUpdate();
-        // alebo:
-        // entityManager.createNativeQuery("delete from score").executeUpdate();
     }
 }

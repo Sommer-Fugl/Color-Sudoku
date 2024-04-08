@@ -1,6 +1,5 @@
 package sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.entity.Comment;
 import sk.tuke.gamestudio.entity.Rating;
@@ -17,7 +16,7 @@ public class ConsoleUI {
     private boolean playing = true;
     private Player player;
     private static final String gameName = "ColorSudoku";
-    private Timestamp actualDate = new Timestamp(System.currentTimeMillis());
+    private final Timestamp actualDate = new Timestamp(System.currentTimeMillis());
     private boolean justStarted = true;
 
     private static final String colorEnd = "\u001B[0m";
@@ -86,11 +85,8 @@ public class ConsoleUI {
     }
 
     private void showAverageRate(){
-        //RatingServiceJDBC ratingServiceJDBC = new RatingServiceJDBC();
         System.out.print(CYAN + "Average game rating is " + colorEnd);
         int avRate = ratingService.getAverageRating(gameName);
-        // or
-        // ratingServiceJDBC.getAverageRating(gameName);
 
         for(int i=0; i< avRate; i++){
             System.out.print(Yellow + "★" + colorEnd);
@@ -101,8 +97,7 @@ public class ConsoleUI {
         }
 
         ratingService.getAverageRating(gameName);
-        //or
-        //ratingServiceJDBC.getAverageRating(gameName);
+
         System.out.println();
     }
 
@@ -184,7 +179,6 @@ public class ConsoleUI {
     }
 
     private void showHallOfFame(){
-//        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
         List<Score> topScores = scoreService.getTopScores("ColorSudoku");//scoreServiceJDBC.getTopScores("ColorSudoku");
         System.out.println(ORANGE+"Hall of Fame:"+ colorEnd);
         for(Score score: topScores){
@@ -195,8 +189,6 @@ public class ConsoleUI {
 
     private GameBoard askAfterGame(GameBoard board){
         Score score = new Score(gameName, player.getPlayerName(), player.getPlayerPoints(), actualDate);
-//        ScoreServiceJDBC scoreServiceJDBC = new ScoreServiceJDBC();
-//        scoreServiceJDBC.addScore(score);
         scoreService.addScore(score);
 
         create(board);
@@ -236,7 +228,6 @@ public class ConsoleUI {
     }
 
     private void showComments(){
-//        CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
         List<Comment> comments = commentService.getComments(gameName);//commentServiceJDBC.getComments(gameName);
         System.out.println(CYAN + "Players comments:" + colorEnd);
         for(Comment comment: comments){
@@ -272,10 +263,10 @@ public class ConsoleUI {
                 answer = scanner.nextLine();
             }
             int rate = answer.charAt(0)-48;
-            Rating rating = new Rating(player.getPlayerName(), gameName, rate,actualDate);
+
+            Rating rating = new Rating(player.getPlayerName(), gameName, rate, actualDate);
             ratingService.setRating(rating);
-            //RatingServiceJDBC ratingServiceJDBC = new RatingServiceJDBC();
-            //ratingServiceJDBC.setRating(rating);
+
         }
         else
             System.out.println(CYAN+"We are waiting for comment next time!"+colorEnd);
@@ -295,8 +286,6 @@ public class ConsoleUI {
             String com = scanner.nextLine();
             Comment comment = new Comment(player.getPlayerName(),gameName, com, actualDate);
             commentService.addComment(comment);
-//            CommentServiceJDBC commentServiceJDBC = new CommentServiceJDBC();
-            //commentServiceJDBC.addComment(comment);
         }
         else
             System.out.println(ORANGE+"We are waiting for comment next time!"+ colorEnd);

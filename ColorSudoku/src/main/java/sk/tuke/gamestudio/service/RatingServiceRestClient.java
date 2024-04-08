@@ -19,14 +19,12 @@ public class RatingServiceRestClient implements RatingService{
 
     @Override
     public int getAverageRating(String game) throws RatingException {
-        int rate = restTemplate.getForEntity(url + "/average/" + game, Integer.class).getBody();
-        return rate;
+        return restTemplate.getForEntity(url + "/average/" + game, Integer.class).getBody();
     }
 
     @Override
     public int getRating(String game, String player) throws RatingException {
-        int rate = restTemplate.getForEntity(url + "/onerating/" + game + "/" + player, Integer.class).getBody();
-        return rate;
+        return restTemplate.getForEntity(url + "/onerating/" + game + "/" + player, Integer.class).getBody();
     }
 
     @Override

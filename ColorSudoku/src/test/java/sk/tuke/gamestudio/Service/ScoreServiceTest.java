@@ -21,6 +21,7 @@ public class ScoreServiceTest {
     public void addScore() {
         var date = new Timestamp(System.currentTimeMillis());
         var score = new Score("ColorSudoku", "Jaro", 120, date);
+        score.setIdent(0);
         scoreService.reset();
         scoreService.addScore(score);
         var scores = scoreService.getTopScores("ColorSudoku");
@@ -36,9 +37,15 @@ public class ScoreServiceTest {
     public void getTopScores() {
         var date = new Timestamp(System.currentTimeMillis());
         scoreService.reset();
-        scoreService.addScore(new Score("ColorSudoku", "Jaro", 200, date));
-        scoreService.addScore(new Score("ColorSudoku", "Jozo", 250, date));
-        scoreService.addScore(new Score("ColorSudoku", "Anca", 150, date));
+        Score score1 = new Score("ColorSudoku", "Jaro", 200, date);
+        score1.setIdent(1);
+        scoreService.addScore(score1);
+        Score score2 = new Score("ColorSudoku", "Jozo", 250, date);
+        score2.setIdent(2);
+        scoreService.addScore(score2);
+        Score score3 = new Score("ColorSudoku", "Anca", 150, date);
+        score3.setIdent(3);
+        scoreService.addScore(score3);
 
         var scores = scoreService.getTopScores("ColorSudoku");
         assertEquals(3, scores.size());

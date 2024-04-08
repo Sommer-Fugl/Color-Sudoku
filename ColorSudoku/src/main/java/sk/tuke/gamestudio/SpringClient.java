@@ -31,17 +31,14 @@ public class SpringClient {
     @Bean
     public ScoreService scoreService() {
         return new ScoreServiceRestClient();
-        //return new ScoreServiceJPA();
     }
     @Bean
     public RatingService ratingService(){
         return new RatingServiceRestClient();
-        //return new RatingServiceJPA();
     }
     @Bean
     public CommentService commentService(){
         return new CommentServiceRestClient();
-        //return new CommentServiceJPA();
     }
 
     @Bean
@@ -52,5 +49,15 @@ public class SpringClient {
     @Bean
     public ScoreServiceRestClient scoreServiceRestClient(){
         return new ScoreServiceRestClient();
+    }
+
+    @Bean
+    public RatingServiceRestClient ratingServiceRestClient(){
+        return new RatingServiceRestClient();
+    }
+
+    @Bean
+    public CommentServiceRestClient commentServiceRestClient(){
+        return new CommentServiceRestClient();
     }
 }

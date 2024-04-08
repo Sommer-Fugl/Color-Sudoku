@@ -12,7 +12,12 @@ public class RatingServiceJPA implements RatingService{
     private EntityManager entityManager;
     @Override
     public void setRating(Rating rating) throws RatingException {
-        entityManager.persist(rating);
+        List<Rating> ratingList = getRatingPlayer("ColorSudoku");
+        for(Rating checkedRating: ratingList){
+            if(checkedRating.getPlayer().equals(rating.getPlayer()))
+                rating.setIdent(checkedRating.getIdent());
+        }
+        entityManager.merge(rating);
     }
 
     @Override

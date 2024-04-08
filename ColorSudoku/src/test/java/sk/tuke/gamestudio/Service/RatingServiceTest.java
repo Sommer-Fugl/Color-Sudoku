@@ -15,6 +15,7 @@ public class RatingServiceTest {
     @Test
     public void reset(){
         var rating = new Rating("Karo", "ColorSudoku", 4,new Timestamp(System.currentTimeMillis()));
+        rating.setIdent(0);
         ratingService.setRating(rating);
         ratingService.reset();
         assertEquals(0, ratingService.getRatingPlayer("ColorSudoku").size());
@@ -24,6 +25,7 @@ public class RatingServiceTest {
     public void setRating(){
         ratingService.reset();
         var rating = new Rating("Kargo","ColorSudoku",3,new Timestamp(System.currentTimeMillis()));
+        rating.setIdent(1);
         ratingService.setRating(rating);
         var ratings = ratingService.getRating("ColorSudoku", "Kargo");
         assertSame(3, ratings);
@@ -33,8 +35,11 @@ public class RatingServiceTest {
     public void getAverageRating(){
         ratingService.reset();
         var rating1 = new Rating("Judo","ColorSudoku", 4, new Timestamp(System.currentTimeMillis()));
+        rating1.setIdent(2);
         var rating2 = new Rating("Pippin","ColorSudoku", 5, new Timestamp(System.currentTimeMillis()));
+        rating2.setIdent(3);
         var rating3 = new Rating("Zuzanna","ColorSudoku", 3, new Timestamp(System.currentTimeMillis()));
+        rating3.setIdent(4);
         ratingService.setRating(rating1);
         ratingService.setRating(rating2);
         ratingService.setRating(rating3);
@@ -46,6 +51,7 @@ public class RatingServiceTest {
     public void getRating(){
         ratingService.reset();
         var rating = new Rating("Waster", "ColorSudoku", 3, new Timestamp(System.currentTimeMillis()));
+        rating.setIdent(0);
         ratingService.setRating(rating);
         var gottenRating = ratingService.getRating("ColorSudoku", "Waster");
         assertEquals(rating.getRating(), gottenRating);
@@ -55,8 +61,11 @@ public class RatingServiceTest {
     public void getRatingPlayer(){
         ratingService.reset();
         var rating1 = new Rating("Judo","ColorSudoku", 4, new Timestamp(System.currentTimeMillis()));
+        rating1.setIdent(2);
         var rating2 = new Rating("Pippin","ColorSudoku", 5, new Timestamp(System.currentTimeMillis()));
+        rating2.setIdent(3);
         var rating3 = new Rating("Zuzanna","ColorSudoku", 3, new Timestamp(System.currentTimeMillis()));
+        rating3.setIdent(4);
         ratingService.setRating(rating1);
         ratingService.setRating(rating2);
         ratingService.setRating(rating3);

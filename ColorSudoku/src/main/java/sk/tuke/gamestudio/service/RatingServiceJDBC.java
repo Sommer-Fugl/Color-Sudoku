@@ -10,18 +10,19 @@ public class RatingServiceJDBC implements RatingService{
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
-    public static final String SELECT = "SELECT game, player, rating, ratedOn FROM rating WHERE game = ?";
+    public static final String SELECT = "SELECT ident,game, player, rating, rated_On FROM rating WHERE game = ?";
     public static final String DELETE = "DELETE FROM rating";
-    public static final String INSERT = "INSERT INTO rating (game, player, rating, ratedOn) VALUES (?, ?, ?, ?)";
+    public static final String INSERT = "INSERT INTO rating (ident,game, player, rating, rated_On) VALUES (?,?, ?, ?, ?)";
     @Override
     public void setRating(Rating rating) throws RatingException {
         try(Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
             PreparedStatement statement = connection.prepareStatement(INSERT)
         ){
-            statement.setString(1, rating.getGame());
-            statement.setString(2,rating.getPlayer());
-            statement.setInt(3, rating.getRating());
-            statement.setTimestamp(4, new Timestamp(rating.getRatedOn().getTime()));
+            statement.setInt(1,rating.getIdent());
+            statement.setString(2, rating.getGame());
+            statement.setString(3,rating.getPlayer());
+            statement.setInt(4, rating.getRating());
+            statement.setTimestamp(5, new Timestamp(rating.getRatedOn().getTime()));
             statement.executeUpdate();
         }
         catch(SQLException e){
@@ -38,7 +39,8 @@ public class RatingServiceJDBC implements RatingService{
             try(ResultSet rs = statement.executeQuery()){
                 List<Rating> ratings = new ArrayList<>();
                 while(rs.next()){
-                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getTimestamp(4)));
+                    ratings.add(new Rating(rs.getString(3), rs.getString(2), rs.getInt(4), rs.getTimestamp(5)));
+                    ratings.getLast().setIdent(rs.getInt(1));
                 }
                 int counter = 0;
                 for (Rating rating : ratings) {
@@ -61,7 +63,8 @@ public class RatingServiceJDBC implements RatingService{
             try(ResultSet rs = statement.executeQuery()){
                 List<Rating> ratings = new ArrayList<>();
                 while(rs.next()){
-                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getTimestamp(4)));
+                    ratings.add(new Rating(rs.getString(3), rs.getString(2), rs.getInt(4), rs.getTimestamp(5)));
+                    ratings.getLast().setIdent(rs.getInt(1));
                 }
                 for(Rating oneRating: ratings){
                     if(oneRating.getPlayer().equals(player))
@@ -83,7 +86,8 @@ public class RatingServiceJDBC implements RatingService{
             try(ResultSet rs = statement.executeQuery()){
                 List<Rating> ratings = new ArrayList<>();
                 while(rs.next()){
-                    ratings.add(new Rating(rs.getString(2), rs.getString(1), rs.getInt(3), rs.getTimestamp(4)));
+                    ratings.add(new Rating(rs.getString(3), rs.getString(2), rs.getInt(4), rs.getTimestamp(5)));
+                    ratings.getLast().setIdent(rs.getInt(1));
                 }
                 return ratings;
             }

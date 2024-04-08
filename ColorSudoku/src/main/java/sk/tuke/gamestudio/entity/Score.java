@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 @Entity
 @NamedQuery( name = "Score.getTopScores",
         query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC")
+@NamedQuery(name = "Score.getAllScores",
+        query = "SELECT s FROM Score s WHERE s.game=:game")
 @NamedQuery( name = "Score.resetScores",
         query = "DELETE FROM Score")
 public class Score implements Serializable {

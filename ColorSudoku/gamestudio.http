@@ -1,0 +1,60 @@
+###Score Services
+
+### addScore
+POST http://localhost:8080/api/score
+Content-Type: application/json
+
+{
+  "game": "ColorSudoku",
+  "player": "newbie",
+  "points": 1000,
+  "playedOn": "2024-04-02"
+}
+
+###gettopScores
+GET http://localhost:8080/api/score/topscores/ColorSudoku
+
+###getAllScores
+GET http://localhost:8080/api/score/allscores/ColorSudoku
+
+
+
+###Comment Services
+
+###addComment
+POST http://localhost:8080/api/comment
+Content-Type: application/json
+
+{
+  "game": "ColorSudoku",
+  "player": "newbie",
+  "comment": "Squishy game, needed cookie",
+  "commentedOn": "2024-04-05"
+}
+
+###getComments
+GET http://localhost:8080/api/comment/ColorSudoku
+
+
+
+###Rating Services
+
+### addScore
+POST http://localhost:8080/api/rating
+Content-Type: application/json
+
+{
+  "game": "ColorSudoku",
+  "player": "newbie",
+  "rating": 4,
+  "ratedOn": "2024-04-01"
+}
+
+###getAverageRating
+GET http://localhost:8080/api/rating/average/ColorSudoku
+
+###getRating
+GET http://localhost:8080/api/rating/onerating/ColorSudoku/newbie
+
+###getRatingPlayer
+GET http://localhost:8080/api/rating/ratinglist/ColorSudoku
