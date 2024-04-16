@@ -15,12 +15,15 @@ public class ScoreServiceJPA implements ScoreService {
 
     @Override
     public void addScore(Score score) throws ScoreException {
+        if(score.getPoints() < 0)
+            score.setPoints(0);
         List<Score> scoresList = getAllScores("ColorSudoku");
         for(Score checkedScore: scoresList){
             if(checkedScore.getPlayer().equals(score.getPlayer()))
                 score.setIdent(checkedScore.getIdent());
         }
         entityManager.merge(score);
+        //entityManager.persist(score);
     }
 
     @Override

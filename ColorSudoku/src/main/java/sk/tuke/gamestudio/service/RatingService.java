@@ -9,5 +9,6 @@ public interface RatingService {
     int getAverageRating(String game) throws RatingException;
     int getRating(String game, String player) throws RatingException;
     List<Rating> getRatingPlayer(String game) throws RatingException;
+    Rating getRatingClass(String game, String player) throws RatingException;
     void reset() throws RatingException;
 }

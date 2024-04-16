@@ -18,6 +18,7 @@ public class CommentServiceJPA implements CommentService{
                 comment.setIdent(checkedComment.getIdent());
         }
         entityManager.merge(comment);
+        //entityManager.persist(comment);
     }
 
     @Override

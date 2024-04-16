@@ -97,6 +97,29 @@ public class RatingServiceJDBC implements RatingService{
     }
 
     @Override
+    public Rating getRatingClass(String game, String player) throws RatingException {
+        try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(SELECT))
+        {
+            statement.setString(1, game);
+            try(ResultSet rs = statement.executeQuery()){
+                List<Rating> ratings = new ArrayList<>();
+                while(rs.next()){
+                    ratings.add(new Rating(rs.getString(3), rs.getString(2), rs.getInt(4), rs.getTimestamp(5)));
+                    ratings.getLast().setIdent(rs.getInt(1));
+                }
+                for(Rating oneRating: ratings){
+                    if(oneRating.getPlayer().equals(player))
+                        return oneRating;
+                }
+                return null;
+            }
+        } catch(SQLException e){
+            throw new RatingException("Problem with rating", e);
+        }
+    }
+
+    @Override
     public void reset() throws RatingException {
         try(Connection connection = DriverManager.getConnection(URL,USER,PASSWORD);
             Statement statement = connection.createStatement())

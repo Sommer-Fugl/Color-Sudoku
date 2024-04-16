@@ -7,7 +7,7 @@ Content-Type: application/json
 {
   "game": "ColorSudoku",
   "player": "newbie",
-  "points": 1000,
+  "points": 80,
   "playedOn": "2024-04-02"
 }
 
@@ -46,7 +46,7 @@ Content-Type: application/json
 {
   "game": "ColorSudoku",
   "player": "newbie",
-  "rating": 4,
+  "rating": 3,
   "ratedOn": "2024-04-01"
 }
 

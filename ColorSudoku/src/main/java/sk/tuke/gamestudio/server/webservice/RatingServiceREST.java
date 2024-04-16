@@ -28,6 +28,11 @@ public class RatingServiceREST {
         return ratingService.getRating(game, player);
     }
 
+    @GetMapping("/getratingclass/{game}/{player}")
+    public Rating getRatingClass(@PathVariable String game, @PathVariable String player){
+        return ratingService.getRatingClass(game, player);
+    }
+
     @GetMapping("/ratinglist/{game}")
     public List<Rating> getRatingPlayer(@PathVariable String game){
         return ratingService.getRatingPlayer(game);

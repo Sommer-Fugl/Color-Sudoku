@@ -15,6 +15,8 @@ import java.sql.Timestamp;
         query = "SELECT AVG(r.rating) FROM Rating r WHERE r.game=:game")
 @NamedQuery( name = "Rating.getRating",
         query = "SELECT r.rating FROM Rating r WHERE r.game=:game AND r.player=:player")
+@NamedQuery( name = "Rating.getRatingClass",
+        query = "SELECT r FROM Rating r WHERE r.game=:game AND r.player=:player")
 @NamedQuery( name = "Rating.getRatingPlayer",
         query = "SELECT r FROM Rating r WHERE r.game=:game")
 public class Rating implements Serializable {
@@ -26,10 +28,6 @@ public class Rating implements Serializable {
     private int rating;
     private Timestamp ratedOn;
     public Rating(){}
-
-//    public Rating(int ident) {
-//        this.ident = ident;
-//    }
 
     public int getIdent() {
         return ident;

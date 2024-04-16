@@ -12,11 +12,16 @@ public class RatingServiceJPA implements RatingService{
     private EntityManager entityManager;
     @Override
     public void setRating(Rating rating) throws RatingException {
-        List<Rating> ratingList = getRatingPlayer("ColorSudoku");
-        for(Rating checkedRating: ratingList){
-            if(checkedRating.getPlayer().equals(rating.getPlayer()))
-                rating.setIdent(checkedRating.getIdent());
-        }
+        if(rating.getRating()<0)
+            rating.setRating(0);
+
+        var ratingCheck = (Rating)entityManager.createNamedQuery("Rating.getRatingClass")
+                .setParameter("game", rating.getGame())
+                .setParameter("player", rating
+                .getPlayer()).getResultList().stream().findFirst().orElse(null);
+        if(ratingCheck != null)
+            rating.setIdent(ratingCheck.getIdent());
+
         entityManager.merge(rating);
     }
 
@@ -40,6 +45,13 @@ public class RatingServiceJPA implements RatingService{
     public List<Rating> getRatingPlayer(String game) throws RatingException {
         return entityManager.createNamedQuery("Rating.getRatingPlayer")
                 .setParameter("game", game).getResultList();
+    }
+
+    @Override
+    public Rating getRatingClass(String game, String player) throws RatingException {
+        return (Rating)entityManager.createNamedQuery("Rating.getRatingClass")
+                .setParameter("game", game).setParameter("player", player)
+                .getSingleResult();
     }
 
     @Override

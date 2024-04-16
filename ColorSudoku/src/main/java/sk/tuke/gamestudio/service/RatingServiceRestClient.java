@@ -33,6 +33,11 @@ public class RatingServiceRestClient implements RatingService{
     }
 
     @Override
+    public Rating getRatingClass(String game, String player) throws RatingException {
+        return restTemplate.getForEntity(url + "/getratingclass/" + game + "/" + player, Rating.class).getBody();
+    }
+
+    @Override
     public void reset() throws RatingException {
         throw new UnsupportedOperationException();
     }
