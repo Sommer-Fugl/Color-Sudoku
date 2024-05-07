@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import sk.tuke.gamestudio.server.Controller.GameBoardController;
 import sk.tuke.gamestudio.service.*;
 
 @SpringBootApplication
@@ -23,6 +24,11 @@ public class GameStudioServer {
     @Bean
     public CommentService commentService(){
         return new CommentServiceJPA();
+    }
+
+    @Bean
+    public PlayerAccountService accountService(){
+        return new PlayerAccountServiceJPA();
     }
 
     @Bean

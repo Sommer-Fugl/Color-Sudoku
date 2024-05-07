@@ -13,7 +13,7 @@ public class CommentServiceREST {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/{game}")
+    @GetMapping("/getcomments/{game}")
     public List<Comment> getComments(@PathVariable String game){
         return commentService.getComments(game);
     }

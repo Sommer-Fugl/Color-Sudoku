@@ -2,6 +2,7 @@ package sk.tuke.gamestudio.game.ColorSudoku.ConsoleUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.entity.Comment;
+import sk.tuke.gamestudio.entity.PlayerAccount;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.ColorSudoku.Core.*;
@@ -42,6 +43,12 @@ public class ConsoleUI {
     @Autowired
     private void setRatingService(RatingService ratingService){
         this.ratingService = ratingService;
+    }
+    @Autowired
+    private PlayerAccountService playerAccountService;
+    @Autowired
+    private void setPlayerAccountService(PlayerAccountService playerAccountService){
+        this.playerAccountService = playerAccountService;
     }
 
     public void play(){
@@ -293,8 +300,18 @@ public class ConsoleUI {
 
     private GameBoard StartedScreen(GameBoard board) throws MatchException{
         System.out.println(ORANGE+"Welcome, to the Color Sudoku!" + colorEnd);
-        String  playerName = writePlayerName();
-        player = new Player(playerName);
+        String playerName = "";
+        String str= "";
+        //while(playerAccountService.getPlayerAccount("ColorSudoku",playerName) == null){
+            playerName = writePlayerName();
+            player = new Player(playerName);
+            PlayerAccount playerAccount = new PlayerAccount(playerName, str);
+            System.out.print("Write your password: ");
+            str = new Scanner(System.in).nextLine();
+            System.out.println(playerAccountService.getPlayerAccount("ColorSudoku", "boom"));
+//            }
+        playerAccountService.addPlayerAccount(playerAccount);
+
         while(board.getGameDifficulty() == null){
             System.out.println(ORANGE+"0 — EASY " + "1 — MEDIUM " + "2 — HARD " + "3 — EXPERT"+colorEnd);
             System.out.print(CYAN+"\nChoose difficulty: "+colorEnd);

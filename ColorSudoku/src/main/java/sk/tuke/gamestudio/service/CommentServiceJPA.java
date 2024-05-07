@@ -12,13 +12,7 @@ public class CommentServiceJPA implements CommentService{
     private EntityManager entityManager;
     @Override
     public void addComment(Comment comment) throws CommentException {
-        List<Comment> comments = getComments("ColorSudoku");
-        for(Comment checkedComment: comments){
-            if(checkedComment.getPlayer().equals(comment.getPlayer()))
-                comment.setIdent(checkedComment.getIdent());
-        }
         entityManager.merge(comment);
-        //entityManager.persist(comment);
     }
 
     @Override

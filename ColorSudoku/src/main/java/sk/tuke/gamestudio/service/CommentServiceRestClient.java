@@ -12,6 +12,7 @@ public class CommentServiceRestClient implements CommentService{
 
     @Autowired
     private RestTemplate restTemplate;
+
     @Override
     public void addComment(Comment comment) throws CommentException {
         restTemplate.postForEntity(url, comment, Comment.class);
@@ -19,7 +20,7 @@ public class CommentServiceRestClient implements CommentService{
 
     @Override
     public List<Comment> getComments(String game) throws CommentException {
-        return Arrays.asList(restTemplate.getForEntity(url + "/" + game, Comment[].class).getBody());
+        return Arrays.asList(restTemplate.getForEntity(url + "/getcomments/" + game, Comment[].class).getBody());
     }
 
     @Override

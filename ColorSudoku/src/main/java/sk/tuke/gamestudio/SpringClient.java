@@ -39,6 +39,11 @@ public class SpringClient {
     public CommentService commentService(){
         return new CommentServiceRestClient();
     }
+    @Bean
+    public PlayerAccountService playerAccountService(){return new PlayerAccountRestClient();}
+
+    @Bean
+    public PlayerAccountRestClient playerAccountServiceRestClient(){return new PlayerAccountRestClient();}
 
     @Bean
     public RestTemplate restTemplate(){

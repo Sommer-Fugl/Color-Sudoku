@@ -1,0 +1,32 @@
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    min-width: 200px;
+    width: auto;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+.flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: #495057;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nav-item:hover {
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+.nav-item i {
+    margin-right: 0.5rem;
+}
